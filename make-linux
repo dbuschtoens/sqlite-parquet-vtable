@@ -4,7 +4,6 @@ set -euo pipefail
 here=$(dirname "${BASH_SOURCE[0]}")
 here=$(readlink -f "$here")
 prebuilt="$here"/build/linux/prebuilt
-ubuntu="$(lsb_release -s -r)"
 libs=(libarrow.a libboost_filesystem.a libboost_regex.a libboost_system.a libbrotlicommon.a libbrotlidec.a \
   libbrotlienc.a libicudata.a libicui18n.a libicuuc.a liblz4.a libparquet.a libsnappy.a libthrift.a libzstd.a)
 lib_locs=()
@@ -38,21 +37,7 @@ build_sqlite() {
 }
 
 set_icu_version() {
-  case "$ubuntu" in
-    14.04)
-      export ICU_VERSION=52.1
-      ;;
-    16.04)
-      export ICU_VERSION=55.1
-      ;;
-    18.04)
-      export ICU_VERSION=60.2
-      ;;
-    *)
-    echo "unsure what libicu version to use" >&2
-    exit 1
-  esac
-
+  export ICU_VERSION=60.2
   export ICU_VERSION_U=${ICU_VERSION//./_}
 }
 
